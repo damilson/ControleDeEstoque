@@ -56,7 +56,6 @@ builder.Services.AddAutoMapper(cfg =>
 });
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -76,7 +75,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["SecretKey"]))
     };
 });
-
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
@@ -92,9 +90,9 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
+app.UseRouting();
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -7,7 +7,7 @@ using Servicos.Interfaces;
 namespace ControleDeEstoque.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/usuario")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioServico _servico;

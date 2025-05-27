@@ -22,14 +22,14 @@ const Login: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('https://localhost:44321/api/usuario/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: formData.username,
-                    password: formData.password,
+                    cpf: formData.username,
+                    senha: formData.password,
                 }),
             });
 
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
                 }
             }
 
-            const data = await response.json();
+            //const data = await response.json();
             alert('Login realizado com sucesso!');
         } catch (err: any) {
             setError(err.message);

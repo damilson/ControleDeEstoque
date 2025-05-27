@@ -39,7 +39,7 @@ namespace Entidades
         public string SenhaHash { get; set; }
 
         [ForeignKey("Perfil")]
-        public int PerfilId { get; set; }
+        public Guid PerfilId { get; set; }
 
         public virtual Perfil Perfil { get; set; }
 

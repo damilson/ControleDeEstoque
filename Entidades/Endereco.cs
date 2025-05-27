@@ -34,7 +34,7 @@ namespace Entidades
         [MaxLength(10)]
         public string CEP { get; set; }
 
-        public int UsuarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }
