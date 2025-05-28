@@ -1,3 +1,4 @@
+using ControleDeEstoque.Server.Mapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,8 +18,8 @@ builder.Services.AddDbContext<Contexto>(options => options.UseSqlServer(builder.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API", Version = "3.0.4" });
-
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle de estoque", Version = "3.0.4" });
+  
     // Adiciona a definição do esquema JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -53,6 +54,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<MappingProfile>();
+    cfg.AddProfile<MappingProfileApi>();
 });
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
@@ -86,6 +88,7 @@ app.UseStaticFiles();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
+    c.DefaultModelExpandDepth(-1);
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha API v1");
 });
 

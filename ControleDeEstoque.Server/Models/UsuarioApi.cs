@@ -1,12 +1,6 @@
-﻿using Entidades;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Util;
-
-namespace Servicos.DTO
+﻿namespace ControleDeEstoque.Server.Models
 {
-    public class UsuarioDTO
+    public class UsuarioApi
     {
         public Guid Id { get; set; }
 
@@ -29,8 +23,8 @@ namespace Servicos.DTO
         public string Senha { get; set; }
         public string SenhaHash { get; set; }
 
-        public TipoPerfil Perfil { get; set; }
+        public int PerfilId { get; set; }
 
-        public virtual EnderecoDTO Endereco { get; set; }
+        public EnderecoApi Endereco { get; set; }
     }
 }

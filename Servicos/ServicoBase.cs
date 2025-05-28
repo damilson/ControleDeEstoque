@@ -6,7 +6,7 @@ using Servicos.Interfaces;
 
 namespace Servicos
 {
-    public class ServicoBase<IBaseDTO, TEntity> : RepositorioGenerico<TEntity>, IServicoBase<IBaseDTO> where TEntity : class, IEntity where IBaseDTO : class
+    public class ServicoBase<IBaseDTO, TEntity> : RepositorioGenerico<TEntity>, IServicoBase<IBaseDTO, TEntity> where TEntity : class, IEntity where IBaseDTO : class
     {
         protected readonly IMapper _mapper;
 

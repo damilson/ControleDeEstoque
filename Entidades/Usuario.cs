@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Util;
 
 namespace Entidades
 {
@@ -38,10 +39,7 @@ namespace Entidades
         public string Senha { get; set; }
         public string SenhaHash { get; set; }
 
-        [ForeignKey("Perfil")]
-        public Guid PerfilId { get; set; }
-
-        public virtual Perfil Perfil { get; set; }
+        public TipoPerfil Perfil { get; set; }
 
         public virtual Endereco Endereco { get; set; }
     }

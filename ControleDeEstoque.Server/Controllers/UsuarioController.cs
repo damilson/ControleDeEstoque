@@ -1,4 +1,5 @@
-﻿using ControleDeEstoque.Server.Models;
+﻿using AutoMapper;
+using ControleDeEstoque.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Servicos.DTO;
@@ -10,11 +11,13 @@ namespace ControleDeEstoque.Server.Controllers
     [Route("api/usuario")]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioServico _servico;
+        private readonly IUsuarioServico _servicoUsuario;
+        private readonly IMapper _mapper;
 
-        public UsuarioController(IUsuarioServico servico)
+        public UsuarioController(IUsuarioServico servico, IMapper mapper)
         {
-            _servico = servico;
+            _servicoUsuario = servico;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
@@ -25,7 +28,7 @@ namespace ControleDeEstoque.Server.Controllers
                 CPF = model.Cpf,
                 Senha = model.Senha,
             };
-            var token = await _servico.AutenticarAsync(dto);
+            var token = await _servicoUsuario.AutenticarAsync(dto);
             return Ok(new { token });
         }
 
@@ -35,6 +38,37 @@ namespace ControleDeEstoque.Server.Controllers
         {
             var email = User?.Identity?.Name;
             return Ok(new { logado = true, email });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Create(UsuarioApi model)
+        {
+            var usuario = await _servicoUsuario.IncluirAsync(_mapper.Map<UsuarioDTO>(model));
+            return Ok(usuario);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> Update(UsuarioApi model)
+        {
+            var usuario = await _servicoUsuario.AutenticarAsync(_mapper.Map<UsuarioDTO>(model));
+            return Ok(usuario);
+        }
+
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _servicoUsuario.RemoverAsync(id);
+                return Ok("Usuário removido com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

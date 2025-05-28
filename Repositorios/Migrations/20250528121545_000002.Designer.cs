@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositorios.Contexto;
 
@@ -11,9 +12,11 @@ using Repositorios.Contexto;
 namespace Repositorios.Migrations
 {
     [DbContext(typeof(Contexto.Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20250528121545_000002")]
+    partial class _000002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,10 +123,7 @@ namespace Repositorios.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("Perfil")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("PerfilId")
+                    b.Property<Guid>("PerfilId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("RG")
@@ -170,9 +170,13 @@ namespace Repositorios.Migrations
 
             modelBuilder.Entity("Entidades.Usuario", b =>
                 {
-                    b.HasOne("Entidades.Perfil", null)
+                    b.HasOne("Entidades.Perfil", "Perfil")
                         .WithMany("Usuarios")
-                        .HasForeignKey("PerfilId");
+                        .HasForeignKey("PerfilId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Perfil");
                 });
 
             modelBuilder.Entity("Entidades.Perfil", b =>

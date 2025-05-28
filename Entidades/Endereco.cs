@@ -9,7 +9,7 @@ namespace Entidades
 
         [Required]
         [MaxLength(150)]
-        public string Rua { get; set; }
+        public string Logradouro { get; set; }
 
         [Required]
         [MaxLength(50)]
