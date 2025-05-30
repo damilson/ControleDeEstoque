@@ -7,32 +7,26 @@ namespace Entidades
         [Key]
         public Guid Id { get; set; }
 
-        [Required]
         [MaxLength(150)]
-        public string Logradouro { get; set; }
+        public required string Logradouro { get; set; }
 
-        [Required]
         [MaxLength(50)]
-        public string Numero { get; set; }
+        public required string Numero { get; set; }
 
         [MaxLength(100)]
-        public string Complemento { get; set; }
+        public string? Complemento { get; set; }
 
-        [Required]
         [MaxLength(100)]
-        public string Bairro { get; set; }
+        public required string Bairro { get; set; }
 
-        [Required]
         [MaxLength(100)]
-        public string Cidade { get; set; }
+        public required string Cidade { get; set; }
 
-        [Required]
         [MaxLength(2)]
-        public string Estado { get; set; }
+        public required string Uf { get; set; }
 
-        [Required]
         [MaxLength(10)]
-        public string CEP { get; set; }
+        public required string CEP { get; set; }
 
         public Guid UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }

@@ -8,8 +8,7 @@ namespace Entidades
         [Key]
         public Guid Id { get; set; }
 
-        [Required]
-        public TipoPerfil Tipo { get; set; }
+        public required TipoPerfil Tipo { get; set; }
 
         public virtual ICollection<Usuario>? Usuarios { get; set; }
     }

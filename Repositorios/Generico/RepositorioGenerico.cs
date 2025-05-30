@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Repositorios.Generico
 {
-    public abstract class RepositorioGenerico<TEntity> : IRepositorioGenerico<TEntity> where TEntity : class, IEntity
+    public class RepositorioGenerico<TEntity> : IRepositorioGenerico<TEntity> where TEntity : class, IEntity
     {
         protected readonly Contexto.Contexto _contexto;
         protected DbSet<TEntity> DbSet => _contexto.Set<TEntity>();

@@ -9,6 +9,8 @@ namespace Servicos.Mapper
         public MappingProfile()
         {
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+            CreateMap<Itens, ItensDTO>().ReverseMap();
+            CreateMap<Pedidos, PedidosDTO>().ReverseMap();
         }
     }
 }

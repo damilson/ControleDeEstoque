@@ -2,8 +2,7 @@
 
 namespace Servicos.Interfaces
 {
-    public interface IServicoBase<IBaseDTO, TEntity> : IRepositorioGenerico<TEntity> where TEntity : class
-        where IBaseDTO : class
+    public interface IServicoBase<IBaseDTO, TEntity>
     {
         Task<Guid> IncluirAsync(IBaseDTO dto);
 

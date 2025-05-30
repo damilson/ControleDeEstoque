@@ -9,6 +9,8 @@ namespace ControleDeEstoque.Server.Mapper
         public MappingProfileApi()
         {
             CreateMap<UsuarioApi, UsuarioDTO>().ReverseMap();
+            CreateMap<PedidosApi, ItensDTO>().ReverseMap();
+            CreateMap<PedidosApi, PedidosDTO>().ReverseMap();
         }
     }
 }

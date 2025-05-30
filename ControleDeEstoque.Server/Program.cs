@@ -58,6 +58,9 @@ builder.Services.AddAutoMapper(cfg =>
 });
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
+builder.Services.AddScoped<IItensServico, ItensServico>();
+builder.Services.AddScoped<IPedidosServico, PedidosServico>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

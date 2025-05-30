@@ -24,6 +24,8 @@ namespace Repositorios.Contexto
         public DbSet<Usuario> USUARIOS { get; set; }
         public DbSet<Endereco> ENDERECOS { get; set; }
         public DbSet<Perfil> PERFILS { get; set; }
+        public DbSet<Pedidos> PEDIDOS { get; set; }
+        public DbSet<Itens> ITENS { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

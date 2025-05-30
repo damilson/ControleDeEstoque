@@ -10,15 +10,15 @@ namespace Servicos
     public class UsuarioServico : ServicoBase<UsuarioDTO, Usuario>, IUsuarioServico
     {
         private readonly TokenService _tokenService;
-
+        
         public UsuarioServico(Contexto contexto, IMapper mapper) : base(contexto, mapper)
         {
         }
 
         public async Task<string> AutenticarAsync(UsuarioDTO dto)
         {
-            var usuarios = await GetAllAsync();
-            var user = usuarios.FirstOrDefault(u => u.CPF == dto.CPF);
+            var usuarios = await BuscarAsync();
+            var user = _mapper.Map<Usuario>(usuarios.FirstOrDefault(u => u.CPF == dto.CPF));
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Senha, user.SenhaHash))
                 throw new UnauthorizedAccessException("Credenciais inválidas");
@@ -30,15 +30,15 @@ namespace Servicos
         {
             try
             {
-                var usuarios = await GetAllAsync();
+                var usuarios = await BuscarAsync();
                 var user = usuarios.FirstOrDefault(u => u.CPF == dto.CPF);
 
                 if (user != null)
                     throw new Exception("O cpf informa já encontra-se cadastrado no sistema.");
 
-                var entidade = await CreatedAsync(_mapper.Map<Usuario>(dto));
+                var entidade = await IncluirAsync(dto);
 
-                return entidade.Id;
+                return entidade;
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace Servicos
             {
                 try
                 {
-                    var usuarios = await GetAllAsync();
+                    var usuarios = await BuscarAsync();
                     var user = usuarios.FirstOrDefault(u => u.Id == dto.Id);
 
                     if (user == null)
@@ -62,12 +62,12 @@ namespace Servicos
                     user.CPF = dto.CPF;
                     user.Celular = dto.Celular;
                     user.Telefone = dto.Telefone;
-                    user.RG = dto.RG;
+                    user.Rg = dto.Rg;
                     user.Perfil = dto.Perfil;
 
-                    var entidade = await UpdateAsync(user);
+                    var entidade = await AtualizarAsync(user);
 
-                    return entidade.Id;
+                    return entidade;
                 }
                 catch (Exception ex)
                 {
