@@ -1,6 +1,6 @@
 ﻿namespace ControleDeEstoque.Server.Models
 {
-    public class PedidosApi
+    public class ItensApi
     {
         public Guid Id { get; set; }
         public required string Descricao { get; set; }

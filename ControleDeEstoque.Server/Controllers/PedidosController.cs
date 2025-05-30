@@ -6,7 +6,9 @@ using Servicos.Interfaces;
 
 namespace ControleDeEstoque.Server.Controllers
 {
-    public class PedidosController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PedidosController : ControllerBase
     {
         private readonly IPedidosServico _pedidosServico;
         private readonly IMapper _mapper;

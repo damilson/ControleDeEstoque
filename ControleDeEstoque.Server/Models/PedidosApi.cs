@@ -8,6 +8,6 @@
 
         public string NomeCliente { get; set; }
 
-        public List<PedidosApi> Itens { get; set; }
+        public List<ItensApi> Itens { get; set; }
     }
 }
