@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle de estoque", Version = "3.0.4" });
   
-    // Adiciona a definição do esquema JWT
+    // Adiciona a definiï¿½ï¿½o do esquema JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header usando o esquema Bearer. 
@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer"
     });
 
-    // Aplica a segurança globalmente
+    // Aplica a seguranï¿½a globalmente
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -103,6 +103,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallbackToFile("/index.html");
+app.MapFallbackToFile("/Dashboard.tsx");
 
 app.Run();
