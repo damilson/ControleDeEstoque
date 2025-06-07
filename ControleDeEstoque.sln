@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositorios", "Repositorio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Util", "Util\Util.csproj", "{8CF79BCE-EEE8-4FE2-8E41-B88DF4AD64A8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testes", "Testes", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EstoqueApiTesteUnitario", "EstoqueTeste\EstoqueApiTesteUnitario.csproj", "{F029FA4D-3B86-471A-8DF4-6390E8841FE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,9 +51,16 @@ Global
 		{8CF79BCE-EEE8-4FE2-8E41-B88DF4AD64A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CF79BCE-EEE8-4FE2-8E41-B88DF4AD64A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CF79BCE-EEE8-4FE2-8E41-B88DF4AD64A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F029FA4D-3B86-471A-8DF4-6390E8841FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F029FA4D-3B86-471A-8DF4-6390E8841FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F029FA4D-3B86-471A-8DF4-6390E8841FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F029FA4D-3B86-471A-8DF4-6390E8841FE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F029FA4D-3B86-471A-8DF4-6390E8841FE8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {23BC66C5-8F14-49D4-90A9-32043AC16E02}
