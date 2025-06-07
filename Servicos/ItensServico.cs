@@ -11,5 +11,10 @@ namespace Servicos
         public ItensServico(Contexto contexto, IMapper mapper) : base(contexto, mapper)
         {
         }
+
+        public override Task ValidarOperacao(ItensDTO model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

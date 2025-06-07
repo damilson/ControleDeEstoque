@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositorios.Contexto;
 
@@ -11,9 +12,11 @@ using Repositorios.Contexto;
 namespace Repositorios.Migrations
 {
     [DbContext(typeof(Contexto.Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20250607005025_000007")]
+    partial class _000007
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,30 +122,6 @@ namespace Repositorios.Migrations
                     b.ToTable("PEDIDOS");
                 });
 
-            modelBuilder.Entity("Entidades.PedidosItens", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PedidoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("PedidoId");
-
-                    b.ToTable("PedidosItens");
-                });
-
             modelBuilder.Entity("Entidades.Perfil", b =>
                 {
                     b.Property<Guid>("Id")
@@ -223,6 +202,21 @@ namespace Repositorios.Migrations
                     b.ToTable("USUARIOS");
                 });
 
+            modelBuilder.Entity("ItensPedidos", b =>
+                {
+                    b.Property<Guid>("ItensId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PedidosId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ItensId", "PedidosId");
+
+                    b.HasIndex("PedidosId");
+
+                    b.ToTable("PedidoItens", (string)null);
+                });
+
             modelBuilder.Entity("Entidades.Endereco", b =>
                 {
                     b.HasOne("Entidades.Usuario", "Usuario")
@@ -234,25 +228,6 @@ namespace Repositorios.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Entidades.PedidosItens", b =>
-                {
-                    b.HasOne("Entidades.Itens", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entidades.Pedidos", "Pedido")
-                        .WithMany("Itens")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("Pedido");
-                });
-
             modelBuilder.Entity("Entidades.Usuario", b =>
                 {
                     b.HasOne("Entidades.Perfil", null)
@@ -260,9 +235,19 @@ namespace Repositorios.Migrations
                         .HasForeignKey("PerfilId");
                 });
 
-            modelBuilder.Entity("Entidades.Pedidos", b =>
+            modelBuilder.Entity("ItensPedidos", b =>
                 {
-                    b.Navigation("Itens");
+                    b.HasOne("Entidades.Itens", null)
+                        .WithMany()
+                        .HasForeignKey("ItensId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entidades.Pedidos", null)
+                        .WithMany()
+                        .HasForeignKey("PedidosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entidades.Perfil", b =>

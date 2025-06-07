@@ -37,7 +37,8 @@ namespace ControleDeEstoque.Server.Controllers
         {
             try
             {
-                return Ok(_mapper.Map<PedidosApi>(await _pedidosServico.BuscarPorIdAsync(id)));
+                var pedidos = _mapper.Map<PedidosApi>(await _pedidosServico.BuscarPorIdAsync(id));
+                return Ok(pedidos);
             }
             catch (Exception ex)
             {
@@ -59,12 +60,56 @@ namespace ControleDeEstoque.Server.Controllers
             }
         }
 
+        [HttpPost("item")]
+        public async Task<IActionResult> IncluirItemPedido([FromBody] PedidosItensApi model)
+        {
+            try
+            {
+                await _pedidosServico.IncluirItemPedido(_mapper.Map<PedidosItensDTO>(model));
+                return Ok("Item incluido com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut()]
         public async Task<IActionResult> Put([FromBody] PedidosApi model)
         {
             try
             {
                 await _pedidosServico.AtualizarAsync(_mapper.Map<PedidosDTO>(model));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/fechar-pedido")]
+        public async Task<IActionResult> FecharPedido(Guid id)
+        {
+            try
+            {
+                await _pedidosServico.FecharPedido(id);
+
+                return Ok("Pedido fechado com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{itemId}/item/{pedidoId}/pedido")]
+        public async Task<IActionResult> RemoverPedido(Guid itemId, Guid pedidoId)
+        {
+            try
+            {
+                await _pedidosServico.RemoverItemPedido(itemId,pedidoId);
+
                 return Ok();
             }
             catch (Exception ex)

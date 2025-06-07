@@ -75,5 +75,10 @@ namespace Servicos
                 }
             }
         }
+
+        public override Task ValidarOperacao(UsuarioDTO model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Servicos.DTO
+﻿using Util;
+
+namespace Servicos.DTO
 {
     public class PedidosDTO
     {
@@ -8,6 +10,8 @@
 
         public string NomeCliente { get; set; }
 
-        public List<ItensDTO> Itens { get; set; }
+        public SituacaoPedido SituacaoPedido { get; set; }
+
+        public List<PedidosItensDTO> Itens { get; set; }
     }
 }

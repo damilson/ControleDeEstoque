@@ -11,6 +11,7 @@ namespace Servicos.Mapper
             CreateMap<Usuario, UsuarioDTO>().ReverseMap();
             CreateMap<Itens, ItensDTO>().ReverseMap();
             CreateMap<Pedidos, PedidosDTO>().ReverseMap();
+            CreateMap<PedidosItens, PedidosItensDTO>().ReverseMap();
         }
     }
 }

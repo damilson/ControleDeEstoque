@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositorios.Contexto;
 
@@ -11,9 +12,11 @@ using Repositorios.Contexto;
 namespace Repositorios.Migrations
 {
     [DbContext(typeof(Contexto.Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20250607010018_000008")]
+    partial class _000008
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +122,7 @@ namespace Repositorios.Migrations
                     b.ToTable("PEDIDOS");
                 });
 
-            modelBuilder.Entity("Entidades.PedidosItens", b =>
+            modelBuilder.Entity("Entidades.PedidosITens", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,16 +134,13 @@ namespace Repositorios.Migrations
                     b.Property<Guid>("PedidoId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("PedidosItens");
+                    b.ToTable("PedidosITens");
                 });
 
             modelBuilder.Entity("Entidades.Perfil", b =>
@@ -234,7 +234,7 @@ namespace Repositorios.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Entidades.PedidosItens", b =>
+            modelBuilder.Entity("Entidades.PedidosITens", b =>
                 {
                     b.HasOne("Entidades.Itens", "Item")
                         .WithMany()

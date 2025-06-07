@@ -24,7 +24,7 @@ namespace ControleDeEstoque.Server.Controllers
         {
             try
             {
-                return Ok(_mapper.Map<List<PedidosApi>>(await _itensServico.BuscarAsync()));
+                return Ok(_mapper.Map<List<ItensApi>>(await _itensServico.BuscarAsync()));
             }
             catch (Exception ex)
             {
@@ -37,7 +37,7 @@ namespace ControleDeEstoque.Server.Controllers
         {
             try
             {
-                return Ok(_mapper.Map<PedidosApi>(await _itensServico.BuscarPorIdAsync(id)));
+                return Ok(_mapper.Map<ItensApi>(await _itensServico.BuscarPorIdAsync(id)));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace ControleDeEstoque.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PedidosApi model)
+        public async Task<IActionResult> Post([FromBody] ItensApi model)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace ControleDeEstoque.Server.Controllers
         }
 
         [HttpPut()]
-        public async Task<IActionResult> Put([FromBody] PedidosApi model)
+        public async Task<IActionResult> Put([FromBody] ItensApi model)
         {
             try
             {

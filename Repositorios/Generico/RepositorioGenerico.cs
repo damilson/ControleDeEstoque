@@ -16,12 +16,12 @@ namespace Repositorios.Generico
 
         public virtual async Task<List<TEntity>> GetAllAsync()
         {
-            return await DbSet.AsNoTracking().ToListAsync().ConfigureAwait(false);
+            return await DbSet.AsNoTracking().ToListAsync();
         }
 
         public virtual async Task<TEntity> GetByIdAsync(Guid id)
         {
-            return await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id).ConfigureAwait(false);
+            return await DbSet.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public virtual IQueryable<TEntity> GetByCondition(Expression<Func<TEntity, bool>> predicate)
@@ -31,9 +31,9 @@ namespace Repositorios.Generico
 
         public virtual async Task<TEntity> CreatedAsync(TEntity entity, bool saveChanges = true)
         {
-            await DbSet.AddAsync(entity).ConfigureAwait(false);
+            await DbSet.AddAsync(entity);
             if (saveChanges)
-                await _contexto.SaveChangesAsync().ConfigureAwait(false);
+                await _contexto.SaveChangesAsync();
             return entity;
         }
 
@@ -41,29 +41,29 @@ namespace Repositorios.Generico
         {
             DbSet.Update(entity);
             if (saveChanges)
-                await _contexto.SaveChangesAsync().ConfigureAwait(false);
+                await _contexto.SaveChangesAsync();
             return entity;
         }
 
         public virtual async Task DeleteAsync(Guid id, bool saveChanges = true)
         {
-            var entity = await DbSet.FirstOrDefaultAsync(e => e.Id == id).ConfigureAwait(false);
+            var entity = await DbSet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity != null)
             {
                 DbSet.Remove(entity);
                 if (saveChanges)
-                    await _contexto.SaveChangesAsync().ConfigureAwait(false);
+                    await _contexto.SaveChangesAsync();
             }
         }
 
         public virtual async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate, bool saveChanges = true)
         {
-            var entity = await DbSet.FirstOrDefaultAsync(predicate).ConfigureAwait(false);
+            var entity = await DbSet.FirstOrDefaultAsync(predicate);
             if (entity != null)
             {
                 DbSet.Remove(entity);
                 if (saveChanges)
-                    await _contexto.SaveChangesAsync().ConfigureAwait(false);
+                    await _contexto.SaveChangesAsync();
             }
         }
     }
