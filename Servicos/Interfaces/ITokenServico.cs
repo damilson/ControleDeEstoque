@@ -1,9 +1,8 @@
 ﻿using Entidades;
-using Servicos.DTO;
 
 namespace Servicos.Interfaces
 {
-    public interface ITokenServico : IServicoBase<UsuarioDTO, Usuario>
+    public interface ITokenServico 
     {
         string GerarToken(Usuario usuario);
     }

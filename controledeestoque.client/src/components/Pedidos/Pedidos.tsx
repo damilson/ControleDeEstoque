@@ -1,5 +1,4 @@
 import React, { type ChangeEvent, type FormEvent, useEffect, useState } from 'react';
-import axios from 'axios';
 import api from '../../axios';
 
 type PedidoItem = {
@@ -18,7 +17,7 @@ type Pedido = {
 
 const PedidosPage: React.FC = () => {
     const [pedidos, setPedidos] = useState<Pedido[]>([]);
-    const [form, setForm] = useState<Pedido>({
+    const [formData, setForm] = useState<Pedido>({
         nomeCliente: '',
         numero: '',
         situacaoPedido: 0,
@@ -45,7 +44,7 @@ const PedidosPage: React.FC = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            await api.post('/api/pedidos', form);
+            await api.post('/api/pedidos', formData);
             setForm({
                 nomeCliente: '',
                 numero: '',
@@ -81,7 +80,7 @@ const PedidosPage: React.FC = () => {
                     type="text"
                     name="nomeCliente"
                     placeholder="Nome do Cliente"
-                    value={form.nomeCliente}
+                    value={formData.nomeCliente}
                     onChange={handleChange}
                     className="w-full border p-2 rounded"
                     required
@@ -90,14 +89,14 @@ const PedidosPage: React.FC = () => {
                     type="text"
                     name="numero"
                     placeholder="Número do Pedido"
-                    value={form.numero}
+                    value={formData.numero}
                     onChange={handleChange}
                     className="w-full border p-2 rounded"
                     required
                 />
                 <select
                     name="situacaoPedido"
-                    value={form.situacaoPedido}
+                    value={formData.situacaoPedido}
                     onChange={handleChange}
                     className="w-full border p-2 rounded"
                 >

@@ -22,6 +22,8 @@ namespace ControleDeEstoque.Server.Mapper
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ReverseMap();
 
+            CreateMap<EnderecoApi, EnderecoDTO>().ReverseMap();
+            
         }
 
         private List<ItensApi> ConverteLista(List<PedidosItensDTO> itens)

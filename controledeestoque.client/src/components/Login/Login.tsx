@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import api from '../../axios';
 
 interface LoginProps {
-    username: string;
-    password: string;
+    cpf: string;
+    senha: string;
 }
 
 const Login: React.FC = () => {
-    const [formData, setFormData] = useState<LoginProps>({ username: '', password: '' });
+    const [formData, setFormData] = useState<LoginProps>({ cpf: '', senha: '' });
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -22,29 +25,20 @@ const Login: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch('https://localhost:44321/api/usuario/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cpf: formData.username,
-                    senha: formData.password,
-                }),
+            const response = await api.post('api/usuario/login', formData);
+            setFormData({
+                cpf: '',
+                senha: ''
             });
 
-            if (!response.ok) {
-                if (response.status === 401) {
-                    throw new Error('Usuário ou senha inválidos.');
-                } else {
-                    throw new Error('Erro ao conecetar ao servidor.');
-                }
-            }
+            const token = await response.data.token;
 
-            //const data = await response.json();
+            localStorage.setItem('token', token);
+
             alert('Login realizado com sucesso!');
+            navigate('/dashboard');
         } catch (err: any) {
-            setError(err.message);
+            setError(err.response.data);
         } finally {
             setLoading(false);
         }
@@ -59,16 +53,16 @@ const Login: React.FC = () => {
                     <label>Usuario</label>
                     <input
                         type="text"
-                        name="username"
-                        value={formData.username}
+                        name="cpf"
+                        value={formData.cpf}
                         onChange={handleChange}
                         required
                     />
                     <label>Senha</label>
                     <input
                         type="password"
-                        name="password"
-                        value={formData.password}
+                        name="senha"
+                        value={formData.senha}
                         onChange={handleChange}
                         required
                     />

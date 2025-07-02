@@ -8,6 +8,7 @@ using Repositorios.Generico;
 using Servicos;
 using Servicos.Interfaces;
 using Servicos.Mapper;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,16 +20,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle de estoque", Version = "3.0.4" });
-  
+
     // Adiciona a definição do esquema JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = @"JWT Authorization header usando o esquema Bearer. 
-                        Exemplo: 'Bearer 12345abcdef'",
+        Description = "JWT Authorization header usando o esquema Bearer. Exemplo: 'Bearer 12345abcdef'",
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
     });
 
     // Aplica a segurança globalmente
@@ -42,9 +43,9 @@ builder.Services.AddSwaggerGen(c =>
                     Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 },
-                Scheme = "oauth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header
+                Scheme = "bearer",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
             },
             new List<string>()
         }
@@ -56,7 +57,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile<MappingProfile>();
     cfg.AddProfile<MappingProfileApi>();
 });
-builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<ITokenServico, TokenService>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
 builder.Services.AddScoped<IItensServico, ItensServico>();
 builder.Services.AddScoped<IPedidosServico, PedidosServico>();
@@ -77,7 +78,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = config["Issuer"],
         ValidAudience = config["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["SecretKey"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["SecretKey"])),
+        NameClaimType = ClaimTypes.Name
     };
 });
 builder.Services.AddAuthorization();

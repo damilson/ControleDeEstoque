@@ -9,10 +9,11 @@ namespace Servicos
 {
     public class UsuarioServico : ServicoBase<UsuarioDTO, Usuario>, IUsuarioServico
     {
-        private readonly TokenService _tokenService;
+        private readonly ITokenServico _tokenService;
         
-        public UsuarioServico(Contexto contexto, IMapper mapper) : base(contexto, mapper)
+        public UsuarioServico(Contexto contexto, IMapper mapper, ITokenServico tokenService) : base(contexto, mapper)
         {
+            _tokenService = tokenService;
         }
 
         public async Task<string> AutenticarAsync(UsuarioDTO dto)
@@ -21,7 +22,7 @@ namespace Servicos
             var user = _mapper.Map<Usuario>(usuarios.FirstOrDefault(u => u.CPF == dto.CPF));
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Senha, user.SenhaHash))
-                throw new UnauthorizedAccessException("Credenciais inválidas");
+                throw new UnauthorizedAccessException("Usuário não encontrado!");
 
             return _tokenService.GerarToken(user);
         }
@@ -36,7 +37,8 @@ namespace Servicos
                 if (user != null)
                     throw new Exception("O cpf informa já encontra-se cadastrado no sistema.");
 
-                var entidade = await IncluirAsync(dto);
+                dto.SenhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha);
+                var entidade = await base.IncluirAsync(dto);
 
                 return entidade;
             }
@@ -64,6 +66,8 @@ namespace Servicos
                     user.Telefone = dto.Telefone;
                     user.Rg = dto.Rg;
                     user.Perfil = dto.Perfil;
+                    user.Senha = dto.Senha;
+                    user.SenhaHash = dto.SenhaHash;
 
                     var entidade = await AtualizarAsync(user);
 

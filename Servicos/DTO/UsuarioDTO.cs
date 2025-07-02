@@ -27,6 +27,7 @@ namespace Servicos.DTO
         public string Sexo { get; set; }
 
         public string Senha { get; set; }
+
         public string SenhaHash { get; set; }
 
         public TipoPerfil Perfil { get; set; }

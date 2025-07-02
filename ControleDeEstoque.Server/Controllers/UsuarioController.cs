@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Servicos.DTO;
 using Servicos.Interfaces;
+using System.Security.Claims;
 
 namespace ControleDeEstoque.Server.Controllers
 {
@@ -23,21 +24,38 @@ namespace ControleDeEstoque.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginApi model)
         {
-            var dto = new UsuarioDTO()
+            try
             {
-                CPF = model.Cpf,
-                Senha = model.Senha,
-            };
-            var token = await _servicoUsuario.AutenticarAsync(dto);
-            return Ok(new { token });
+
+                var dto = new UsuarioDTO()
+                {
+                    CPF = model.Cpf,
+                    Senha = model.Senha,
+                };
+                var token = await _servicoUsuario.AutenticarAsync(dto);
+                return Ok(new { token });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
         [HttpGet("login/dados")]
         public IActionResult UsuarioLogado()
         {
-            var email = User?.Identity?.Name;
-            return Ok(new { logado = true, email });
+            var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!Guid.TryParse(idClaim, out Guid usuarioId))
+            {
+                // ID inválido ou ausente
+                return Unauthorized(new { mensagem = "Usuário inválido." });
+            }
+
+            var idUsuario = Guid.Parse(idClaim);
+            var usuario = _servicoUsuario.BuscarPorIdAsync(idUsuario);
+            return Ok(new { logado = true, usuario });
         }
 
         [Authorize]
