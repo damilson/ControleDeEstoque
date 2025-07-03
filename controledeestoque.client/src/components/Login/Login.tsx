@@ -1,25 +1,22 @@
 // src/components/Login/Login.tsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import api from '../../axios';
 
-// Interface LoginProps não é usada para o estado do formulário,
-// o estado é inferido. Mas é bom para clareza se você quiser.
-// interface LoginProps {
-//     username: string; // Manteve username, mas a API espera 'cpf'
-//     password: string;
-// }
+interface LoginProps {
+    cpf: string;
+    senha: string;
+}
 
 const Login: React.FC = () => {
-    // formData agora usa diretamente os nomes dos campos do formulário
-    const [username, setUsername] = useState(''); // Para o campo 'username' (que será o CPF)
-    const [password, setPassword] = useState(''); // Para o campo 'password'
+    const [formData, setFormData] = useState<LoginProps>({ cpf: '', senha: '' });
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const navigate = useNavigate(); // 2. Inicializar useNavigate
+    const navigate = useNavigate();
 
     // A URL base da API deve vir do .env
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:44324'; // Fallback se não definido
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:44324'; // Fallback se n�o definido
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -27,39 +24,20 @@ const Login: React.FC = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/usuario/login`, { // Usar API_BASE_URL
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cpf: username, // Enviar 'username' como 'cpf' para a API
-                    senha: password, // Enviar 'password' como 'senha'
-                }),
+            const response = await api.post('api/usuario/login', formData);
+            setFormData({
+                cpf: '',
+                senha: ''
             });
 
-            if (!response.ok) {
-                if (response.status === 400 || response.status === 401) { // 400 para "Bad Request" também pode ser usuário/senha inválido
-                    // Tenta pegar uma mensagem de erro do corpo da resposta
-                    const errorData = await response.json().catch(() => null);
-                    throw new Error(errorData?.message || 'Usuário ou senha inválidos.');
-                } else {
-                    throw new Error(`Erro ao conectar ao servidor: ${response.status}`);
-                }
-            }
+            const token = await response.data.token;
 
-            const data = await response.json(); // 3. Descomentar e pegar os dados (que devem incluir o token)
+            localStorage.setItem('token', token);
 
-            if (data && data.token) {
-                localStorage.setItem('userToken', data.token); // 4. Salvar o token
-                // alert('Login realizado com sucesso!'); // Pode remover ou manter se quiser
-                navigate('/dashboard.tsx'); // 5. Redirecionar para o dashboard
-            } else {
-                throw new Error('Token não recebido do servidor.');
-            }
-
+            alert('Login realizado com sucesso!');
+            navigate('/dashboard');
         } catch (err: any) {
-            setError(err.message || 'Ocorreu um erro desconhecido.');
+            setError(err.response.data);
         } finally {
             setLoading(false);
         }
@@ -71,13 +49,12 @@ const Login: React.FC = () => {
                 <h2>Controle de Estoque</h2>
                 <h3>Login</h3>
                 <div className="form-group">
-                    <label htmlFor="username">Usuário (CPF)</label> {/* Melhorar htmlFor */}
+                    <label htmlFor="username">Usu�rio (CPF)</label> {/* Melhorar htmlFor */}
                     <input
                         type="text"
-                        id="username" // Adicionar id para o label
-                        name="username" // Mantido como 'username' para o estado local
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)} // Atualizar estado individualmente
+                        name="cpf"
+                        value={formData.cpf}
+                        onChange={handleChange}
                         required
                     />
                 </div> {/* Fechar div.form-group aqui */}
@@ -85,10 +62,9 @@ const Login: React.FC = () => {
                     <label htmlFor="password">Senha</label> {/* Melhorar htmlFor */}
                     <input
                         type="password"
-                        id="password" // Adicionar id para o label
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)} // Atualizar estado individualmente
+                        name="senha"
+                        value={formData.senha}
+                        onChange={handleChange}
                         required
                     />
                 </div>

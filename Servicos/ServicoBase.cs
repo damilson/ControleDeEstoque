@@ -6,17 +6,19 @@ using Servicos.Interfaces;
 
 namespace Servicos
 {
-    public class ServicoBase<IBaseDTO, TEntity> : IServicoBase<IBaseDTO, TEntity>
+    public abstract class ServicoBase<IBaseDTO, TEntity> : IServicoBase<IBaseDTO, TEntity>
         where TEntity : class, IEntity
         where IBaseDTO : class
     {
         protected readonly IMapper _mapper;
         protected readonly RepositorioGenerico<TEntity> _repositorio;
+        protected readonly Contexto _contexto;
 
         public ServicoBase(Contexto contexto, IMapper mapper)
         {
             _mapper = mapper;
             _repositorio = new RepositorioGenerico<TEntity>(contexto);
+            _contexto = contexto;
         }
 
         public virtual async Task<Guid> IncluirAsync(IBaseDTO dto)
@@ -56,5 +58,7 @@ namespace Servicos
             var updated = await _repositorio.UpdateAsync(entity);
             return updated.Id;
         }
+        
+        public abstract Task ValidarOperacao(IBaseDTO model);
     }
 }

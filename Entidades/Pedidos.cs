@@ -1,4 +1,6 @@
-﻿namespace Entidades
+﻿using Util;
+
+namespace Entidades
 {
     public class Pedidos : IEntity
     {
@@ -8,6 +10,8 @@
 
         public required string NomeCliente { get; set; }
 
-        public virtual required List<Itens> Itens { get; set; }
+        public required SituacaoPedido SituacaoPedido { get; set; }
+
+        public virtual required List<PedidosItens> Itens { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ControleDeEstoque.Server.Models
+﻿using Util;
+
+namespace ControleDeEstoque.Server.Models
 {
     public class PedidosApi
     {
@@ -8,6 +10,8 @@
 
         public string NomeCliente { get; set; }
 
-        public List<ItensApi> Itens { get; set; }
+        public SituacaoPedido SituacaoPedido { get; set; }
+
+        public List<PedidosItensApi> Itens { get; set; }
     }
 }

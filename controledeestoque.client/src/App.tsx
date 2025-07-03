@@ -1,7 +1,6 @@
 // src/App.tsx
 import React, { useState } from 'react';
 import Login from './components/Login/Login';
-import Dashboard from './components/Dashboard/Dashboard';
 import './App.css';
 
 function App() {
@@ -29,6 +28,7 @@ function App() {
             {/* Renderiza condicionalmente o Login ou o Dashboard */}
             {showDashboard ? <Dashboard /> : <Login />}
             
+            <Login />          
         </div>
     );
 }

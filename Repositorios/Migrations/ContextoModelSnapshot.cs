@@ -86,9 +86,6 @@ namespace Repositorios.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("PedidosId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
 
@@ -96,8 +93,6 @@ namespace Repositorios.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PedidosId");
 
                     b.ToTable("ITENS");
                 });
@@ -116,9 +111,36 @@ namespace Repositorios.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SituacaoPedido")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("PEDIDOS");
+                });
+
+            modelBuilder.Entity("Entidades.PedidosItens", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PedidoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("PedidosItens");
                 });
 
             modelBuilder.Entity("Entidades.Perfil", b =>
@@ -212,11 +234,23 @@ namespace Repositorios.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Entidades.Itens", b =>
+            modelBuilder.Entity("Entidades.PedidosItens", b =>
                 {
-                    b.HasOne("Entidades.Pedidos", null)
+                    b.HasOne("Entidades.Itens", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entidades.Pedidos", "Pedido")
                         .WithMany("Itens")
-                        .HasForeignKey("PedidosId");
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("Entidades.Usuario", b =>

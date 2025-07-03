@@ -1,13 +1,14 @@
 ﻿using Entidades;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Servicos.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace Servicos
 {
-    public class TokenService
+    public class TokenService : ITokenServico
     {
         private readonly IConfiguration _configuration;
 
@@ -22,7 +23,8 @@ namespace Servicos
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
-                new Claim(ClaimTypes.Name, usuario.CPF)
+                new Claim(ClaimTypes.Name, usuario.Id.ToString()),
+                new Claim("email", usuario.Email)
             };
 
             var token = new JwtSecurityToken(
