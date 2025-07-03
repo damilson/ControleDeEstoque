@@ -36,7 +36,7 @@ const Login: React.FC = () => {
             localStorage.setItem('token', token);
 
             alert('Login realizado com sucesso!');
-            navigate('/dashboard');
+            navigate('/Dashboard.tsx');
         } catch (err: any) {
             setError(err.response.data);
         } finally {

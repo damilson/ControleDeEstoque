@@ -1,0 +1,9 @@
+.demo-warning {
+    color: #ff6b6b;
+    background-color: #fff3f3;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+}
