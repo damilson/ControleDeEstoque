@@ -1,4 +1,5 @@
 using ControleDeEstoque.Server.Mapper;
+using ControleDeEstoque.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +22,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle de estoque", Version = "3.0.4" });
 
-    // Adiciona a definição do esquema JWT
+    // Adiciona a definiÃ§Ã£o do esquema JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header usando o esquema Bearer. Exemplo: 'Bearer 12345abcdef'",
@@ -32,7 +33,7 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT"
     });
 
-    // Aplica a segurança globalmente
+    // Aplica a seguranï¿½a globalmente
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -57,7 +58,9 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile<MappingProfile>();
     cfg.AddProfile<MappingProfileApi>();
 });
-builder.Services.AddScoped<ITokenServico, TokenService>();
+
+builder.Services.AddSingleton<InMemoryRefreshTokenStore>();
+builder.Services.AddScoped<ITokenServico, Servicos.TokenService>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
 builder.Services.AddScoped<IItensServico, ItensServico>();
 builder.Services.AddScoped<IPedidosServico, PedidosServico>();
@@ -105,6 +108,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallbackToFile("/index.html");
+app.MapFallbackToFile("/Dashboard.tsx");
 
 app.Run();
