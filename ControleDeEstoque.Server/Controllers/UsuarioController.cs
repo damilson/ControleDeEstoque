@@ -21,42 +21,42 @@ namespace ControleDeEstoque.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginApi model)
-        {
-            try
-            {
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Login([FromBody] LoginApi model)
+        //{
+        //    try
+        //    {
 
-                var dto = new UsuarioDTO()
-                {
-                    CPF = model.Cpf,
-                    Senha = model.Senha,
-                };
-                var token = await _servicoUsuario.AutenticarAsync(dto);
-                return Ok(new { token });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        var dto = new UsuarioDTO()
+        //        {
+        //            CPF = model.Cpf,
+        //            Senha = model.Senha,
+        //        };
+        //        var token = await _servicoUsuario.AutenticarAsync(dto);
+        //        return Ok(new { token });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [Authorize]
-        [HttpGet("login/dados")]
-        public IActionResult UsuarioLogado()
-        {
-            var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //[Authorize]
+        //[HttpGet("login/dados")]
+        //public IActionResult UsuarioLogado()
+        //{
+        //    var idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (!Guid.TryParse(idClaim, out Guid usuarioId))
-            {
-                // ID inválido ou ausente
-                return Unauthorized(new { mensagem = "Usuário inválido." });
-            }
+        //    if (!Guid.TryParse(idClaim, out Guid usuarioId))
+        //    {
+        //        // ID inválido ou ausente
+        //        return Unauthorized(new { mensagem = "Usuário inválido." });
+        //    }
 
-            var idUsuario = Guid.Parse(idClaim);
-            var usuario = _servicoUsuario.BuscarPorIdAsync(idUsuario);
-            return Ok(new { logado = true, usuario });
-        }
+        //    var idUsuario = Guid.Parse(idClaim);
+        //    var usuario = _servicoUsuario.BuscarPorIdAsync(idUsuario);
+        //    return Ok(new { logado = true, usuario });
+        //}
 
         [Authorize]
         [HttpPost]

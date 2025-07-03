@@ -1,4 +1,5 @@
 using ControleDeEstoque.Server.Mapper;
+using ControleDeEstoque.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,7 +58,9 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile<MappingProfile>();
     cfg.AddProfile<MappingProfileApi>();
 });
-builder.Services.AddScoped<ITokenServico, TokenService>();
+
+builder.Services.AddSingleton<InMemoryRefreshTokenStore>();
+builder.Services.AddScoped<ITokenServico, Servicos.TokenService>();
 builder.Services.AddScoped<IUsuarioServico, UsuarioServico>();
 builder.Services.AddScoped<IItensServico, ItensServico>();
 builder.Services.AddScoped<IPedidosServico, PedidosServico>();
